@@ -24,12 +24,17 @@ st.set_page_config(
 # Standard layout with padding adjustments for a cleaner look.
 st.markdown("""
     <style>
-        /* Remove whitespace mainly on sides and bottom */
-        .block-container {
+        /* Remove whitespace ONLY in the main content area (where the iframe is) */
+        section[data-testid="stMain"] .block-container {
             padding-top: 0rem !important;
             padding-bottom: 0rem !important;
             padding-left: 0.5rem !important;
             padding-right: 0.5rem !important;
+        }
+
+        /* Restore padding for the sidebar so the close button is visible */
+        section[data-testid="stSidebar"] .block-container {
+            padding-top: 2rem !important;
         }
         
         /* Hide the Streamlit footer */
