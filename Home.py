@@ -190,16 +190,24 @@ else:
 
 # --- Global Controls (Bottom of sidebar) ---
 st.sidebar.divider()
-if st.sidebar.button("🛑 Shutdown All Engines"):
+if st.sidebar.button("☢️ KILL & RESTART SYSTEM", type="primary"):
     import psutil
     count = 0
+    # Kill all sub-apps
     for name, conf in APPS.items():
         for proc in psutil.process_iter(['pid', 'name']):
             try:
                 for conn in proc.connections():
                     if conn.laddr.port == conf['port']:
-                        proc.terminate()
+                        proc.kill()  # Force kill
                         count += 1
             except:
                 pass
-    st.sidebar.success(f"Stopped {count} engines. Please close the tab.")
+    
+    # Clear session state to trigger re-launch
+    if 'apps_launched' in st.session_state:
+        del st.session_state['apps_launched']
+    
+    st.sidebar.warning(f"Killed {count} processes. Rebooting...")
+    time.sleep(1)
+    st.rerun()
