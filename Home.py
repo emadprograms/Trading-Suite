@@ -26,7 +26,7 @@ st.markdown("""
     <style>
         /* Remove whitespace mainly on sides and bottom */
         .block-container {
-            padding-top: 1.5rem !important;
+            padding-top: 0rem !important;
             padding-bottom: 0rem !important;
             padding-left: 0.5rem !important;
             padding-right: 0.5rem !important;
@@ -35,9 +35,11 @@ st.markdown("""
         /* Hide the Streamlit footer */
         footer {visibility: hidden;}
         
-        /* Ensure iframe takes maximum height */
+        /* Ensure iframe takes maximum height and pulls up to hide nested header */
         iframe {
-            height: 95vh !important;
+            height: 100vh !important;
+            top: -55px !important; /* Push up to hide sub-app header */
+            position: relative !important;
         }
     </style>
 """, unsafe_allow_html=True)
