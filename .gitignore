@@ -3,3 +3,9 @@ __pycache__/
 *.pyc
 .DS_Store
 logs/
+scan_state.json
+**/.streamlit/secrets.toml
+**/.env
+.vscode/
+**/.streamlit/secrets.toml
+**/.env

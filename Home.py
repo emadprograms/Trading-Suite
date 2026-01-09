@@ -84,20 +84,29 @@ APPS = {
 def is_port_open(port):
     """Checks if a local port is open (meaning app is running)."""
     try:
-        response = requests.get(f"http://localhost:{port}/_stcore/health", timeout=0.5)
+        url = f"http://localhost:{port}/_stcore/health"
+        response = requests.get(url, timeout=0.5)
+        # st.toast(f"Port {port} check: {response.status_code}") # excessive noise
         return response.status_code == 200
-    except:
+    except Exception as e:
+        # st.toast(f"Port {port} closed: {e}")
         return False
 
 def launch_all_apps():
     """Iterates through apps and launches them if not running."""
+    st.write("Debug: Starting Launch Sequence...")
     for name, config in APPS.items():
-        if not is_port_open(config['port']):
+        is_open = is_port_open(config['port'])
+        st.write(f"Debug: App {name} on {config['port']} - Open? {is_open}")
+        
+        if not is_open:
+            st.write(f"Debug: Launching {name}...")
             cmd = [
                 sys.executable, "-m", "streamlit", "run", config["file"],
                 "--server.port", str(config["port"]),
                 "--server.headless", "true",
                 "--server.address", "localhost",
+                "--server.fileWatcherType", "watchdog",
                 "--theme.base", "dark"
             ]
             working_dir = os.path.join(os.getcwd(), config["dir"])
@@ -107,21 +116,24 @@ def launch_all_apps():
             os.makedirs(log_dir, exist_ok=True)
             log_file = os.path.join(log_dir, f"{name.replace(' ', '_').lower()}.log")
             
-            with open(log_file, "w") as f:
-                subprocess.Popen(
-                    cmd,
-                    cwd=working_dir,
-                    stdout=f,
-                    stderr=subprocess.STDOUT,
-                    start_new_session=True
-                )
+            try:
+                with open(log_file, "w") as f:
+                    subprocess.Popen(
+                        cmd,
+                        cwd=working_dir,
+                        stdout=f,
+                        stderr=subprocess.STDOUT,
+                        start_new_session=True
+                    )
+                st.write(f"Debug: Launch command sent for {name}")
+            except Exception as e:
+                st.error(f"Failed to launch {name}: {e}")
 
 # --- Initialization ---
-# Run launch logic only once per session/reload to save resources
 if 'apps_launched' not in st.session_state:
-    with st.spinner("Initializing Trading Suite & Launching Sub-Engines..."):
+    with st.expander("System Bootstrap Logs", expanded=True):
         launch_all_apps()
-        time.sleep(3) 
+        time.sleep(5) # Increased wait time
     st.session_state.apps_launched = True
     st.rerun() 
 
