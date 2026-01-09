@@ -146,6 +146,9 @@ if 'apps_launched' not in st.session_state:
 
 # --- Sidebar Navigation ---
 with st.sidebar:
+    # 🛑 FORCE SPACER: Matches the main header offset to reveal the close button
+    st.markdown('<div style="height: 3rem;"></div>', unsafe_allow_html=True)
+    
     # Use logo or title
     # st.image("https://img.icons8.com/3d-fluency/94/rocket.png", width=60)
     # Map apps to Bootstrap icons
