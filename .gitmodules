@@ -1,0 +1,18 @@
+[submodule "News-Fetcher"]
+	path = News-Fetcher
+	url = https://github.com/emadprograms/News-Fetcher.git
+[submodule "analyst-workbench"]
+	path = analyst-workbench
+	url = https://github.com/emadprograms/Analyst-Workbench.git
+[submodule "data-harvester"]
+	path = data-harvester
+	url = https://github.com/emadprograms/Data-Harvester.git
+[submodule "gemini-api-key-manager"]
+	path = gemini-api-key-manager
+	url = https://github.com/emadprograms/gemini-api-key-manager
+[submodule "premarket-scanner"]
+	path = premarket-scanner
+	url = https://github.com/emadprograms/Premarket-Scanner.git
+[submodule "market-rewind"]
+	path = market-rewind
+	url = https://github.com/emadprograms/Market-Rewind.git
