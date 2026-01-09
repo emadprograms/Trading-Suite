@@ -1,2 +1,33 @@
+# Launcher Requirements
 streamlit
 psutil
+streamlit-option-menu
+watchdog
+
+# Submodule Requirements
+yfinance
+pandas
+curl_cffi
+deepdiff
+pillow
+pytesseract
+google-generativeai
+pytest
+libsql-client
+altair
+requests
+urllib3
+pytz
+lightweight-charts
+numpy
+streamlit-js-eval
+beautifulsoup4
+feedparser
+textblob
+plotly
+cloudscraper
+selenium
+webdriver-manager
+investpy
+
+# Note: 'ecocal' was excluded as it is not available on PyPI
