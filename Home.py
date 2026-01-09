@@ -189,6 +189,22 @@ else:
 
 # --- Global Controls (Bottom of sidebar) ---
 st.sidebar.divider()
+
+# Minimize Button (JS Hack)
+if st.sidebar.button("◀ Minimize Sidebar"):
+    components.html(
+        """
+        <script>
+            var collapseBtn = window.parent.document.querySelector('[data-testid="stSidebarCollapseButton"]');
+            if (collapseBtn) {
+                collapseBtn.click();
+            }
+        </script>
+        """,
+        height=0,
+        width=0
+    )
+
 if st.sidebar.button("☢️ KILL & RESTART SYSTEM", type="primary"):
     import psutil
     count = 0
