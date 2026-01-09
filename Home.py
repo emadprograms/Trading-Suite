@@ -143,9 +143,6 @@ if 'apps_launched' not in st.session_state:
 with st.sidebar:
     # Use logo or title
     # st.image("https://img.icons8.com/3d-fluency/94/rocket.png", width=60)
-    st.title("💸 Trading Suite")
-    st.caption("Unified Command Center")
-    
     # Map apps to Bootstrap icons
     # Icons: https://icons.getbootstrap.com/
     icons = {
@@ -158,10 +155,10 @@ with st.sidebar:
     }
     
     app_list = list(APPS.keys())
-    
+
     # Modern Option Menu
     selected_app = option_menu(
-        "Navigation",
+        "Trading Suite",
         app_list,
         icons=[icons.get(app, "app") for app in app_list],
         menu_icon="cast",
