@@ -48,29 +48,29 @@ APPS = {
         "port": 8502,
         "icon": "📰",
     },
-    "Analyst Workbench": {
-        "dir": "analyst-workbench",
-        "file": "app.py",
-        "port": 8503,
-        "icon": "🔬",
-    },
     "Data Harvester": {
         "dir": "data-harvester",
         "file": "app.py",
         "port": 8504,
         "icon": "🌾",
     },
-    "Key Manager": {
-        "dir": "gemini-api-key-manager",
+    "Analyst Workbench": {
+        "dir": "analyst-workbench",
         "file": "app.py",
-        "port": 8505,
-        "icon": "🔑",
+        "port": 8503,
+        "icon": "🔬",
     },
     "Pre-Market Scanner": {
         "dir": "premarket-scanner",
         "file": "app.py",
         "port": 8506,
         "icon": "📈",
+    },
+    "Key Manager": {
+        "dir": "gemini-api-key-manager",
+        "file": "app.py",
+        "port": 8505,
+        "icon": "🔑",
     },
     "Market Rewind": {
         "dir": "market-rewind",
