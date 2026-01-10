@@ -55,6 +55,12 @@ APPS = {
         "port": 8502,
         "icon": "📰",
     },
+    "News Network": {
+        "dir": "news-network",
+        "file": "app.py",
+        "port": 8508,
+        "icon": "📡",
+    },
     "Data Harvester": {
         "dir": "data-harvester",
         "file": "app.py",
@@ -155,6 +161,7 @@ with st.sidebar:
     # Icons: https://icons.getbootstrap.com/
     icons = {
         "News Fetcher": "newspaper",
+        "News Network": "broadcast",
         "Analyst Workbench": "graph-up-arrow",
         "Data Harvester": "database-fill",
         "Key Manager": "key-fill",

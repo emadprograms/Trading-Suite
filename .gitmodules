@@ -16,3 +16,6 @@
 [submodule "market-rewind"]
 	path = market-rewind
 	url = https://github.com/emadprograms/Market-Rewind.git
+[submodule "news-network"]
+	path = news-network
+	url = https://github.com/emadprograms/news-network
