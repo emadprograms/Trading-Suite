@@ -105,6 +105,19 @@ def is_port_open(port):
         # st.toast(f"Port {port} closed: {e}")
         return False
 
+def get_local_ip():
+    """Detects the network IP of the server."""
+    import socket
+    try:
+        # This doesn't actually connect, just finds the interface used to reach the internet
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        ip = s.getsockname()[0]
+        s.close()
+        return ip
+    except Exception:
+        return "localhost"
+
 def launch_all_apps():
     """Iterates through apps and launches them if not running."""
     st.write("Debug: Starting Launch Sequence...")
@@ -118,7 +131,7 @@ def launch_all_apps():
                 sys.executable, "-m", "streamlit", "run", config["file"],
                 "--server.port", str(config["port"]),
                 "--server.headless", "true",
-                "--server.address", "localhost",
+                "--server.address", "0.0.0.0",
                 "--server.fileWatcherType", "watchdog",
                 "--theme.base", "dark"
             ]
@@ -191,7 +204,8 @@ st.sidebar.info(f"**Status:** {selected_app} is Active")
 
 # --- Main Content Area ---
 config = APPS[selected_app]
-url = f"http://localhost:{config['port']}"
+server_ip = get_local_ip()
+url = f"http://{server_ip}:{config['port']}"
 
 # Check if it's actually ready
 if is_port_open(config['port']):
