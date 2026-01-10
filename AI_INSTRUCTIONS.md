@@ -31,24 +31,6 @@
 *   **Fix**: `Home.py` has a "Shutdown All Engines" button.
 *   **Coding**: When editing `Home.py` launch logic, ensure you check `is_port_open()` before spawning new processes.
 
-### 4. Git Submodules
-*   This repo uses submodules.
-*   **Reading Code**: You can read sub-app code directly (e.g., `News-Fetcher/app.py`).
-*   **Modifying Code**: You can edit files directly.
-*   **Syncing**: Remind the user to run `git submodule update --remote` if they are pulling updates.
-
-## 🚀 How to Extend the Suite (Adding a New App)
-1.  **Drop code**: Place the new app folder in the root (e.g., `My-New-App/`).
-2.  **Update `Home.py`**:
-    *   Add entry to `APPS` dictionary:
-        ```python
-        "My New App": {
-            "dir": "My-New-App",
-            "file": "app.py",
-            "port": 8508, # Next available port
-            "icon": "🚀"
-        }
-        ```
     *   Add icon mapping in the sidebar dictionary.
 3.  **Update Secrets**: Create `My-New-App/.streamlit/secrets.toml` if it needs DB access.
 4.  **Update Requirements**: Add any new libs to root `requirements.txt`.
