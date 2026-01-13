@@ -28,8 +28,8 @@ st.markdown("""
         section[data-testid="stMain"] .block-container {
             padding-top: 0rem !important;
             padding-bottom: 0rem !important;
-            padding-left: 0.5rem !important;
-            padding-right: 0.5rem !important;
+            padding-left: 0rem !important;
+            padding-right: 0rem !important;
         }
 
         /* Restore padding for the sidebar so the close button is visible */
@@ -40,55 +40,77 @@ st.markdown("""
         /* Hide the Streamlit footer */
         footer {visibility: hidden;}
         
+        /* HEADER MANAGEMENT (Borderless but functional) */
+        /* 1. Make the header container transparent and non-blocking */
+        header[data-testid="stHeader"] {
+            background: transparent !important;
+        }
+        
+        /* 2. Hide specific header elements we don't want */
+        .stDeployButton {display: none !important;} /* Hide Deploy button */
+        [data-testid="stMainMenu"] {visibility: hidden !important;} /* Hide Hamburger menu */
+        [data-testid="stDecoration"] {visibility: hidden !important;} /* Hide colored line */
+        
+        /* 3. Ensure Sidebar Collapse Button is visible */
+        [data-testid="stSidebarCollapseButton"] {
+            visibility: visible !important;
+            color: #FF4B4B !important; /* Optional: Make it pop */
+        }
+        
         /* Ensure iframe takes maximum height and pulls up to hide nested header */
         iframe {
-            height: 100vh !important;
+            /* Full viewport height + offset to compensate for the top shift */
+            height: calc(100vh + 55px) !important;
             top: -55px !important; /* Push up to hide sub-app header */
             position: relative !important;
+            border: none !important;
+            width: 100% !important;
         }
     </style>
 """, unsafe_allow_html=True)
+
+
 APPS = {
     "News Fetcher": {
         "dir": "News-Fetcher",
         "file": "app.py",
-        "port": 8502,
+        "port": 8511,
         "icon": "📰",
     },
     "News Network": {
         "dir": "news-network",
         "file": "app.py",
-        "port": 8508,
+        "port": 8517,
         "icon": "📡",
     },
     "Data Harvester": {
         "dir": "data-harvester",
         "file": "app.py",
-        "port": 8504,
+        "port": 8513,
         "icon": "🌾",
     },
     "Analyst Workbench": {
         "dir": "analyst-workbench",
         "file": "app.py",
-        "port": 8503,
+        "port": 8512,
         "icon": "🔬",
     },
     "Pre-Market Scanner": {
         "dir": "premarket-scanner",
         "file": "app.py",
-        "port": 8506,
+        "port": 8515,
         "icon": "📈",
     },
     "Key Manager": {
         "dir": "gemini-api-key-manager",
         "file": "app.py",
-        "port": 8505,
+        "port": 8514,
         "icon": "🔑",
     },
     "Market Rewind": {
         "dir": "market-rewind",
         "file": "streamlit_app.py",
-        "port": 8507,
+        "port": 8516,
         "icon": "⏪",
     }
 }
@@ -209,7 +231,7 @@ url = f"http://{server_ip}:{config['port']}"
 
 # Check if it's actually ready
 if is_port_open(config['port']):
-    components.iframe(url, height=1000, scrolling=True)
+    components.iframe(url, height=800, scrolling=True)
 else:
     st.warning(f"⚠️ {selected_app} is currently starting up...")
     st.info("Please wait a moment and click 'Refresh' below.")
