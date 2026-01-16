@@ -206,6 +206,8 @@ with st.sidebar:
     
     app_list = list(APPS.keys())
 
+
+
     # Modern Option Menu
     selected_app = option_menu(
         "Trading Suite",
@@ -239,6 +241,15 @@ else:
         st.rerun()
 
 # --- Global Controls (Bottom of sidebar) ---
+# Show Network Access Info at the bottom
+server_ip = get_local_ip()
+st.sidebar.markdown(f"""
+<div style='background-color: #262730; padding: 10px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #4B4B4B;'>
+    <div style='font-size: 12px; color: #aaa;'>📡 Network Access</div>
+    <div style='font-size: 14px; font-weight: bold; color: #fff;'>http://{server_ip}:8510</div>
+</div>
+""", unsafe_allow_html=True)
+
 st.sidebar.divider()
 
 
