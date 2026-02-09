@@ -1,39 +1,53 @@
 #!/bin/bash
 
+# --- DEBUGGING: Log to Desktop ---
+LOGfile="$HOME/Desktop/TradingSuite_LaunchLog.txt"
+exec > "$LOGfile" 2>&1
+
+echo "Launch Attempt: $(date)"
+
+# --- CRITICAL: Fix PATH for GUI Apps ---
+# diverse set of paths where python might be
+export PATH="/usr/local/bin:/opt/homebrew/bin:$PATH"
+
 # Get the absolute path to the bundle's executable directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# Calculate the project root (3 levels up from Contents/MacOS)
-PROJECT_ROOT="$DIR/../../.."
+# Calculate the project root (4 levels up from Contents/MacOS)
+# Bundles are: dist/Trading Suite.app/Contents/MacOS
+# ../../../..  -> Project Root
+PROJECT_ROOT="$DIR/../../../.."
 
 # Navigate to project root
 cd "$PROJECT_ROOT"
 
-# Set Terminal Title
+# Set Terminal Title (Only works if Terminal is actually open, but good to have)
 echo -n -e "\033]0;Trading Suite\007"
 
 echo "=================================================="
 echo "🚀 Starting Trading Suite..."
 echo "=================================================="
 echo "📂 Project Root: $(pwd)"
+echo "🔍 PATH: $PATH"
 
 # Helper: Check Python
 check_python() {
     if command -v python3.12 &> /dev/null; then
-        echo "✅ Python 3.12 found."
+        echo "✅ Python 3.12 found at: $(command -v python3.12)"
         return 0
     else
-        echo "❌ Python 3.12 NOT found!"
-        echo "   Please install it via: brew install python@3.12"
-        osascript -e 'tell app "System Events" to display dialog "Python 3.12 is missing. Please install it." buttons "OK" default button "OK" with icon stop'
+        echo "❌ Python 3.12 NOT found in PATH!"
+        echo "   PATH is: $PATH"
+        osascript -e 'tell app "System Events" to display dialog "Python 3.12 not found. Check Desktop/TradingSuite_LaunchLog.txt" buttons "OK" default button "OK" with icon stop'
         exit 1
     fi
 }
 
+check_python
+
 # Setup venv if missing
 if [ ! -d "venv" ]; then
     echo "⚠️  Virtual environment not found. Creating one..."
-    check_python
     python3.12 -m venv venv
     
     source venv/bin/activate
@@ -51,5 +65,5 @@ echo "🌟 Launching Home.py..."
 # Run Streamlit
 streamlit run Home.py
 
-# Keep window open on exit/crash
-read -p "Press Enter to close..."
+# Keep window open on exit/crash (This won't keep the app open if it wasn't launched via terminal, but helps if it was)
+echo "❌ App exited."
