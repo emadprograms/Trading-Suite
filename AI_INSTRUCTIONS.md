@@ -18,12 +18,13 @@
 ### 2. Secrets Management (Strict Security)
 *   **NEVER** hardcode credentials.
 *   **ALWAYS** use `st.secrets`.
-*   **Location**: Each sub-app has its own `.streamlit/secrets.toml` (e.g., `News-Fetcher/.streamlit/secrets.toml`).
-*   **Git**: Ensure `.gitignore` excludes `**/.streamlit/secrets.toml`.
+*   **Master Secret File**: Create ONE `secrets.toml` in the root directory containing ALL credentials for all apps.
+*   **Distribution**: Copy this master file to each sub-app's `.streamlit/secrets.toml`.
+*   **Git**: Ensure `.gitignore` excludes `**/.streamlit/secrets.toml` and `secrets.toml`.
 *   **MISSING SECRETS PROTOCOL**:
     *   If secrets are missing, **DO NOT** ask the user what they are.
-    *   **ACTION**: Run `mkdir -p <app>/.streamlit` and `touch <app>/.streamlit/secrets.toml` to create an empty file.
-    *   **NOTIFY**: Tell the user: *"I have created the secrets file. Please open it and paste your API keys manually."*
+    *   **ACTION**: Check if root `secrets.toml` exists. If yes, copy it to the missing location.
+    *   If root is missing: Create an empty `secrets.toml` in root and tell the user to fill it.
 
 ### 3. Port Management (The "Zombie" Risk)
 *   **Range**: 8502 (News) to 8507 (Rewind).

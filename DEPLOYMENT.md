@@ -37,10 +37,22 @@ Run this command to create the necessary directories:
 mkdir -p News-Fetcher/.streamlit analyst-workbench/.streamlit premarket-scanner/.streamlit
 ```
 
-### Step 3b: Add Credentials
-You must create a `secrets.toml` file in **each** of the folders above.
+### Step 3b: Add Credentials (The "Master File" Method)
 
-**Example Content (`.streamlit/secrets.toml`):**
+1.  **Create Master File**: Create a single `secrets.toml` file in the **root** directory of the project.
+2.  **Populate It**: Add ALL credentials for ALL services (Turso, MarketAux, Gemini, etc.) into this one file.
+3.  **Distribute It**: Run this command to copy it to all sub-applications automatically:
+
+```bash
+# Copy root secrets.toml to all sub-apps
+for dir in News-Fetcher analyst-workbench data-harvester gemini-api-key-manager market-rewind news-network premarket-scanner; do
+    mkdir -p "$dir/.streamlit"
+    cp secrets.toml "$dir/.streamlit/secrets.toml"
+    echo "✅ Copied secrets to $dir"
+done
+```
+
+**Example Content (`secrets.toml`):**
 ```toml
 [turso]
 db_url = "libsql://your-database-url.turso.io"
