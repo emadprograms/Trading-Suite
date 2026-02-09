@@ -34,12 +34,13 @@ IF NOT EXIST "venv" (
     
     REM Activate and Install
     CALL venv\Scripts\activate
-    ECHO 📦 Installing dependencies (this may take a minute)...
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
 ) ELSE (
     CALL venv\Scripts\activate
 )
+
+REM Always check/install dependencies
+ECHO 📦 Checking dependencies...
+python -m pip install -r requirements.txt
 
 REM 4. Launch Application
 ECHO ✅ Environment Active.

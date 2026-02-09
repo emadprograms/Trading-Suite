@@ -29,14 +29,13 @@ if [ ! -d "venv" ]; then
         read -p "Press Enter to exit..."
         exit 1
     fi
-    
-    source venv/bin/activate
-    echo "📦 Installing dependencies..."
-    pip install --upgrade pip
-    pip install -r requirements.txt
-else
-    source venv/bin/activate
 fi
+
+source venv/bin/activate
+
+# Always check/install dependencies to ensure updates are applied
+echo "📦 Checking dependencies..."
+pip install -r requirements.txt
 
 # 3. Launch App
 echo "✅ Environment Active."
