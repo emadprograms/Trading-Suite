@@ -46,24 +46,33 @@ check_python() {
 check_python
 
 # Setup venv if missing
-if [ ! -d "venv" ]; then
+# Setup venv if missing
+VENV_PYTHON="$PROJECT_ROOT/venv/bin/python3.12"
+VENV_PIP="$PROJECT_ROOT/venv/bin/pip"
+VENV_STREAMLIT="$PROJECT_ROOT/venv/bin/streamlit"
+
+if [ ! -f "$VENV_PYTHON" ]; then
     echo "⚠️  Virtual environment not found. Creating one..."
     python3.12 -m venv venv
     
-    source venv/bin/activate
-    echo "📦 Installing dependencies..."
-    pip install --upgrade pip
-    pip install -r requirements.txt
+    # Authenticate and install
+    "$VENV_PYTHON" -m pip install --upgrade pip
+    "$VENV_PYTHON" -m pip install -r requirements.txt
 else
-    source venv/bin/activate
+    # Simple check to ensure dependencies are likely there
+    if [ ! -f "$VENV_STREAMLIT" ]; then
+         echo "⚠️  Streamlit not found in venv. Installing..."
+         "$VENV_PYTHON" -m pip install -r requirements.txt
+    fi
 fi
 
 # Launch
-echo "✅ Environment Active."
+echo "✅ Environment Ready."
 echo "🌟 Launching Home.py..."
 
-# Run Streamlit
-streamlit run Home.py
+# Run Streamlit directly using the venv python module
+# We use -m streamlit to ensure we use the library installed in that python environment
+"$VENV_PYTHON" -m streamlit run Home.py
 
 # Keep window open on exit/crash (This won't keep the app open if it wasn't launched via terminal, but helps if it was)
 echo "❌ App exited."
