@@ -66,7 +66,14 @@ auth_token = "news-token"
 api_keys = ["your-api-key"]
 ```
 
-## 4. Launch the Suite
+## 4. Launch the Suite (Easy Method)
+
+We provide native-like launchers in the `dist/` folder.
+
+*   **macOS**: Open `dist/` and double-click **Trading Suite.app**.
+*   **Windows**: Open `dist/windows/` and double-click **Trading Suite.bat**.
+
+## 5. Launch the Suite (Manual Method)
 Always launch from the root directory.
 
 ```bash
