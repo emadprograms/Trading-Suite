@@ -1,78 +1,14 @@
 #!/bin/bash
 
-# --- DEBUGGING: Log to Desktop ---
-LOGfile="$HOME/Desktop/TradingSuite_LaunchLog.txt"
-exec > "$LOGfile" 2>&1
-
-echo "Launch Attempt: $(date)"
-
-# --- CRITICAL: Fix PATH for GUI Apps ---
-# diverse set of paths where python might be
-export PATH="/usr/local/bin:/opt/homebrew/bin:$PATH"
-
-# Get the absolute path to the bundle's executable directory
+# Get the directory of THIS script (Contents/MacOS)
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# Calculate the project root (4 levels up from Contents/MacOS)
-# Bundles are: dist/Trading Suite.app/Contents/MacOS
-# ../../../..  -> Project Root
-PROJECT_ROOT="$DIR/../../../.."
+# Target the launcher script in Resources
+LAUNCHER="$DIR/../Resources/launcher.sh"
 
-# Navigate to project root
-cd "$PROJECT_ROOT"
+# Launch it using Terminal.app
+# This breaks out of the app sandbox/quarantine and runs in the user's trusted terminal context.
+open -a Terminal "$LAUNCHER"
 
-# Set Terminal Title (Only works if Terminal is actually open, but good to have)
-echo -n -e "\033]0;Trading Suite\007"
-
-echo "=================================================="
-echo "🚀 Starting Trading Suite..."
-echo "=================================================="
-echo "📂 Project Root: $(pwd)"
-echo "🔍 PATH: $PATH"
-
-# Helper: Check Python
-check_python() {
-    if command -v python3.12 &> /dev/null; then
-        echo "✅ Python 3.12 found at: $(command -v python3.12)"
-        return 0
-    else
-        echo "❌ Python 3.12 NOT found in PATH!"
-        echo "   PATH is: $PATH"
-        osascript -e 'tell app "System Events" to display dialog "Python 3.12 not found. Check Desktop/TradingSuite_LaunchLog.txt" buttons "OK" default button "OK" with icon stop'
-        exit 1
-    fi
-}
-
-check_python
-
-# Setup venv if missing
-# Setup venv if missing
-VENV_PYTHON="$PROJECT_ROOT/venv/bin/python3.12"
-VENV_PIP="$PROJECT_ROOT/venv/bin/pip"
-VENV_STREAMLIT="$PROJECT_ROOT/venv/bin/streamlit"
-
-if [ ! -f "$VENV_PYTHON" ]; then
-    echo "⚠️  Virtual environment not found. Creating one..."
-    python3.12 -m venv venv
-    
-    # Authenticate and install
-    "$VENV_PYTHON" -m pip install --upgrade pip
-    "$VENV_PYTHON" -m pip install -r requirements.txt
-else
-    # Simple check to ensure dependencies are likely there
-    if [ ! -f "$VENV_STREAMLIT" ]; then
-         echo "⚠️  Streamlit not found in venv. Installing..."
-         "$VENV_PYTHON" -m pip install -r requirements.txt
-    fi
-fi
-
-# Launch
-echo "✅ Environment Ready."
-echo "🌟 Launching Home.py..."
-
-# Run Streamlit directly using the venv python module
-# We use -m streamlit to ensure we use the library installed in that python environment
-"$VENV_PYTHON" -m streamlit run Home.py
-
-# Keep window open on exit/crash (This won't keep the app open if it wasn't launched via terminal, but helps if it was)
-echo "❌ App exited."
+# Exit the wrapper immediately (the app bundle job is done)
+exit 0
