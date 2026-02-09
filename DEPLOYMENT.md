@@ -73,12 +73,17 @@ We provide native-like launchers in the `dist/` folder.
 *   **macOS**: Open `dist/` and double-click **Trading Suite.app**.
 *   **Windows**: Open `dist/windows/` and double-click **Trading Suite.bat**.
 
+> [!NOTE]
+> **First Launch**: The app will automatically check for and install any missing dependencies (like `infisical-python`). This may take a minute or two on the first run.
+
 ## 5. Launch the Suite (Manual Method)
 Always launch from the root directory.
 
 ```bash
 # Activate venv first (if not already active)
 source venv/bin/activate
+# Install dependencies manually if using this method
+pip install -r requirements.txt
 
 # Launch the Main Hub
 streamlit run Home.py

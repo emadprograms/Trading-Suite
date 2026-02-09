@@ -12,8 +12,17 @@
 
 ### 1. The Virtual Environment is SACRED
 *   **Always** ensure code is compatible with **Python 3.12**.
-*   Any new dependency **MUST** be added to the root `requirements.txt`.
-*   **Never** instruct the user to run `pip install` manually; update the file.
+*   **Dependency Management**:
+    *   Any new dependency **MUST** be added to the root `requirements.txt`.
+    *   **Automated Install**: The launchers in `dist/` automatically run `pip install -r requirements.txt` on every launch.
+    *   **Never** instruct the user to run `pip install` manually; update the file and tell them to relaunch the app.
+
+### 4. Distributable Apps (Native Launchers)
+*   **Location**: `dist/` (macOS App) and `dist/windows/` (Windows Batch).
+*   **Structure**:
+    *   macOS: `Trading Suite.app` wraps a shell script that bypasses sandboxing (`open -a Terminal`).
+    *   Windows: `Trading Suite.bat` sets up the environment and launches.
+*   **Editing**: If you change launch logic, update `Home.py` AND the scripts in `dist/`.
 
 ### 2. Secrets Management (Strict Security)
 *   **NEVER** hardcode credentials.
