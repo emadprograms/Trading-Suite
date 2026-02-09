@@ -76,7 +76,49 @@ We provide native-like launchers in the `dist/` folder.
 > [!NOTE]
 > **First Launch**: The app will automatically check for and install any missing dependencies (like `infisical-python`). This may take a minute or two on the first run.
 
-## 5. Launch the Suite (Manual Method)
+## 5. Building the Portable Application (Windows)
+This project includes a `launcher.py` that can be compiled into a standalone executable bundled with Python.
+
+### Prerequisites
+- Python 3.12+ installed.
+- Virtual environment active and requirements installed.
+- `pip install pyinstaller`
+
+### Build Command
+Run this from the project root:
+```powershell
+# 1. Clean previous builds
+Remove-Item -Path "dist", "dist_portable", "build" -Recurse -Force -ErrorAction SilentlyContinue
+
+# 2. Build with PyInstaller (Bundles Python + Deps)
+.\venv\Scripts\pyinstaller --onedir --name "TradingSuite" --clean --noconfirm --distpath dist_portable `
+    --collect-all streamlit `
+    --collect-all altair `
+    --collect-all pandas `
+    --collect-all streamlit_option_menu `
+    --collect-all infisical_client `
+    --collect-all streamlit_lightweight_charts `
+    launcher.py
+
+# 3. Copy Source Files to Distribution
+Copy-Item -Path Home.py -Destination dist_portable\TradingSuite\ -Force
+Copy-Item -Path "News-Fetcher" -Destination dist_portable\TradingSuite -Recurse -Force
+Copy-Item -Path "analyst-workbench" -Destination dist_portable\TradingSuite -Recurse -Force
+Copy-Item -Path "data-harvester" -Destination dist_portable\TradingSuite -Recurse -Force
+Copy-Item -Path "gemini-api-key-manager" -Destination dist_portable\TradingSuite -Recurse -Force
+Copy-Item -Path "market-rewind" -Destination dist_portable\TradingSuite -Recurse -Force
+Copy-Item -Path "news-network" -Destination dist_portable\TradingSuite -Recurse -Force
+Copy-Item -Path "premarket-scanner" -Destination dist_portable\TradingSuite -Recurse -Force
+Copy-Item -Path secrets.toml -Destination dist_portable\TradingSuite\ -Force
+Copy-Item -Path ".streamlit" -Destination dist_portable\TradingSuite -Recurse -Force
+```
+
+### Final Output
+The portable app will be in `dist_portable\TradingSuite`. You can zip this folder and share it.
+- **Run**: Double-click `TradingSuite.exe`.
+- **Config**: Edit `secrets.toml` inside the folder.
+
+## 6. Launch the Suite (Manual Method)
 Always launch from the root directory.
 
 ```bash

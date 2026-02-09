@@ -32,3 +32,6 @@ investpy
 infisical-python
 
 # Note: 'ecocal' was excluded as it is not available on PyPI
+streamlit-option-menu
+infisical-python
+streamlit-lightweight-charts

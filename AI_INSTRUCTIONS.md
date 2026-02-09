@@ -14,6 +14,7 @@
 *   **Always** ensure code is compatible with **Python 3.12**.
 *   **Dependency Management**:
     *   Any new dependency **MUST** be added to the root `requirements.txt`.
+    *   **PORTABLE BUILD**: You must ALSO import the new dependency in `launcher.py` (even if unused) so PyInstaller bundles it.
     *   **Automated Install**: The launchers in `dist/` automatically run `pip install -r requirements.txt` on every launch.
     *   **Never** instruct the user to run `pip install` manually; update the file and tell them to relaunch the app.
 
@@ -57,3 +58,10 @@
 
 ---
 *If you are an AI reading this: Follow these patterns to maintain system stability.*
+
+## 6. Portable Build Instructions
+To create the standalone `dist\TradingSuite` folder:
+1.  Ensure `infisical-python`, `streamlit-option-menu`, and `streamlit-lightweight-charts` are installed.
+2.  Update `launcher.py` to import any new libraries.
+3.  Run the build command (see DEPLOYMENT.md).
+4.  Copy source files into the output folder.

@@ -9,3 +9,9 @@ scan_state.json
 .vscode/
 **/.streamlit/secrets.toml
 **/.env
+
+# Build Artifacts
+build/
+dist/
+dist_portable/
+*.spec
