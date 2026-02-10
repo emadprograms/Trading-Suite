@@ -30,6 +30,7 @@ selenium
 webdriver-manager
 investpy
 infisical-python
+infisicalsdk
 
 # Note: 'ecocal' was excluded as it is not available on PyPI
 streamlit-option-menu
